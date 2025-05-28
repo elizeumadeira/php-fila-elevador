@@ -6,20 +6,20 @@ O projeto é feito com PHP puro mas antes é necessário rodar ``composer instal
 
 Existem três formas de visualizar este projeto:
 
-Através da interface gráfica (que devo dizer coloquei um pouco de trabalho extra aqui)
+● Através da interface gráfica (que devo dizer coloquei um pouco de trabalho extra aqui)
 
-Ou uma versão mais simples somente para testar o projeto
+● Uma versão mais simples somente para testar o projeto, através da classe "src\Descritor"
 
-Através do script PHP
+● Através do script PHP
 
-Para usar esta opção, aqui vão os comandos:
+Para usar esta última opção, aqui vão os comandos:
 
-```bash
-Iniciar usando php fila.php iniciar <int> (<int> capacidade | default 10)
+    ```bash
+    Iniciar usando php fila.php iniciar <int> (<int> capacidade | default 10)
 
-Visualizar a fila atual: php fila.php visualizar
+    Visualizar a fila atual: php fila.php visualizar
 
-Chamar usando php fila.php chamar <int> (<int> andar)
+    Chamar usando php fila.php chamar <int> (<int> andar)
 
-Mover usando php fila.php chamar <int>
-```
+    Mover usando php fila.php chamar <int>
+    ```
