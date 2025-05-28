@@ -6,6 +6,7 @@ require __DIR__ . '/vendor/autoload.php';
 use src\Persistencia;
 use src\Elevador;
 use src\Descritor;
+use src\DescritorScriptController;
 
 define('CAPACIDADE_DEFAULT', 10);
 
@@ -29,8 +30,11 @@ if (!isset($argv[1]) || in_array($argv[1], ['--help', '-help', '-h', '-?'])) {
     Visualizar usando php fila.php visualizar
     Chamar usando php fila.php chamar <int> (<int> andar)
     Mover usando php fila.php mover
+    Ver o andar atual usando php fila.php andar
 TEXT;
 }
+
+$descScrtipt = new DescritorScriptController();
 
 if ($argc >= 2 && $argv[1] == 'iniciar') {
     if(isset($argv[2]) && (!isValidInt($argv[2] || $argv[2] < 1)  )){
@@ -43,57 +47,26 @@ if ($argc >= 2 && $argv[1] == 'iniciar') {
         $capacidade = $argv[2];
     }
 
-    $elevador = new Elevador($capacidade);
-    Persistencia::getInstance()->salvar($elevador, Descritor::serialize);
-
-    echo "Nova Fila criado com capacidade: {$capacidade}";
-    die();
+    $descScrtipt->iniciar($capacidade);
 }
 
 if ($argc >= 2 && $argv[1] == 'visualizar') {
-    $elevador = getElevadorObj();
-    $elevador->filaChamados->setIteratorMode(\SplDoublyLinkedList::IT_MODE_KEEP);
-
-    if($elevador->filaChamados->isEmpty()){
-        echo "Fila esta vazia";
-        die();
-    }
-
-    foreach($elevador->filaChamados as $item){
-        echo $item, PHP_EOL;
-    }
-
-    die();
+    $descScrtipt->visualizar();
 }
 
 if ($argc >= 2 && $argv[1] == 'chamar') {
-        if(!isset($argv[2])){
-        echo "É necessário adicionar um número inteiro maior que 1";
-        die();
-    }
-
-    if(!isValidInt($argv[2]) || $argv[2] < 1 ){
-        echo "É necessário adicionar um número inteiro maior que 1";
-        die();
-    }
-
-    $elevador = getElevadorObj();
-
     try{
-        $elevador->chamar((int) $argv[2]);
+        $descScrtipt->chamar($argv[2]);
     }catch(\Exception $e){
         echo $e->getMessage();
         die();
     }
-    
-    Persistencia::getInstance()->salvar($elevador, Descritor::serialize);
+
 }
 
 if ($argc >= 2 && $argv[1] == 'mover') {
-    $elevador = getElevadorObj();
-    
     try{
-        $elevador->mover();
+        $descScrtipt->mover();
     }catch(\Exception $e){
         echo $e->getMessage();
         die();
@@ -101,4 +74,8 @@ if ($argc >= 2 && $argv[1] == 'mover') {
 
     Persistencia::getInstance()->salvar($elevador, Descritor::serialize);
     die();
+}
+
+if ($argc >= 2 && $argv[1] == 'andar') {
+    $descScrtipt->andar();
 }

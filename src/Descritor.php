@@ -108,8 +108,6 @@ class Descritor
             sleep(.2);
         }
         
-        // Persistencia::getInstance()->salvar($this->elevador, self::serialize);
-        
         echo '</ul>';
     }
 }
