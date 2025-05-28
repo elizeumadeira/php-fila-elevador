@@ -64,11 +64,8 @@ window.onload = () => {
                         }
                         
                         andarAtual = document.querySelector('#andar-atual');
-                        andarAtual.innerHTML = 'Andar atual: ' + (data.andar + 1);
+                        andarAtual.innerHTML = 'Andar atual: ' + (data.andar);
                     })
-
-
-                
             })
             
             .catch(error => {
@@ -221,18 +218,6 @@ window.onload = () => {
 
 
     document.querySelector('#chamar').addEventListener('click', () => {
-        function isNumber(value) {
-            return typeof value === 'number' && !isNaN(value);
-        }
-
-        const andarInput = document.querySelector('#andar-input').value;
-        if(!Number.isNaN(andarInput)){
-            chamarAndar(andarInput);
-        }
-        console.log(Number.isNaN(andarInput))
-    });
-
-    document.querySelector('#mover').addEventListener('click', () => {
         function isNumber(value) {
             return typeof value === 'number' && !isNaN(value);
         }

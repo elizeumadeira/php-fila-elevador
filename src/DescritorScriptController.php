@@ -21,14 +21,15 @@ class DescritorScriptController implements DescritorInterface{
     function visualizar()
     {
         $elevador = $this->getElevadorObj();
-        $elevador->filaChamados->setIteratorMode(\SplDoublyLinkedList::IT_MODE_KEEP);
+        $elevadorClone = $elevador->getChamadosPendentes();
+        $elevadorClone->setIteratorMode(\SplDoublyLinkedList::IT_MODE_KEEP);
 
-        if($elevador->filaChamados->isEmpty()){
+        if($elevadorClone->isEmpty()){
             echo "Fila esta vazia";
             die();
         }
 
-        foreach($elevador->filaChamados as $item){
+        foreach($elevadorClone as $item){
             echo $item, PHP_EOL;
         }
     }
@@ -61,14 +62,17 @@ class DescritorScriptController implements DescritorInterface{
         $elevador = $this->getElevadorObj();
 
         try{
-            $elevador->mover();
+            $ok = $elevador->mover();
         }catch(\Exception $e){
             throw $e;
             die();
         }
 
         Persistencia::getInstance()->salvar($elevador, Descritor::serialize);
-        echo 'Item movido';
+        
+        if($ok){
+            echo 'Item movido';
+        }
 
         die();
     }

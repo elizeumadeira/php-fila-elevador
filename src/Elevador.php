@@ -17,7 +17,7 @@ class Elevador
         $this->capacidade = $capacidade;
     }
 
-    public function chamar(int $andar)
+    public function chamar(int $andar): bool
     {
         if($andar < 0 && $andar > $this->capacidade){
             throw new \Exception("Número de andar inexistente");
@@ -28,9 +28,11 @@ class Elevador
         }
 
         $this->filaChamados->enqueue($andar);
+
+        return true;
     } 
 
-    public function mover()
+    public function mover(): bool
     {
         if($this->filaChamados->isEmpty()){
             throw new \Exception("Fila esta vazia");
@@ -38,6 +40,8 @@ class Elevador
 
         $andar = $this->filaChamados->dequeue();
         $this->andarAtual = $andar;
+
+        return true;
     }
 
     public function getAndarAtual(): int 
@@ -47,7 +51,8 @@ class Elevador
 
     public function getChamadosPendentes(): SplQueue
     {
-        return  $this->filaChamados;
+        $filaClone = clone $this->filaChamados;
+        return  $filaClone;
     }
 
 
