@@ -5,25 +5,21 @@ namespace src;
 class Descritor
 {
     public Elevador $elevador;
-    private const serialize = 'elevador.serialized';
+    public const serialize = 'elevador.serialized';
 
     public function __construct(Elevador $elevador)
     {
         $this->elevador = $elevador;
     }
     
-    private function escreverProcessoChamada($de)
+    private function escreverProcessoChamada($andar)
     {
-        echo "<li>Elevador foi do andar {$de} para o andar {$this->elevador->andarAtual}</li>";
+        echo "<li>Chamando andar {$andar}</li>";
     }
     
     private function escreverProcessoMovimento($de)
     {
-        if($de == $this->elevador->andarAtual){
-            echo "<li style='color: green;'>Elevador ja se encontra no andar {$this->elevador->andarAtual}. Nada a fazer.</li>";
-        }else{
-            echo "<li style='color: green;'>Elevador esta agora no andar {$this->elevador->andarAtual}</li>";
-        }
+        echo "<li style='color: green;'>Saindo do andar {$de}...: elevador esta agora no andar {$this->elevador->andarAtual}</li>";
     }
 
     private function tratarExcecaoLista($e)
@@ -37,7 +33,7 @@ class Descritor
         
         $acoes = [
             ['chamar', 5],
-            // ['chamar', 5], // retorna a mensagem "Elevador ja se encontra no andar 5. Nada a fazer."
+            ['chamar', 5], // retorna a mensagem "Andar ja foi chamado. Ignorando solicitação."
             ['chamar', 0],
             ['chamar', 5],
             ['mover'],
@@ -93,23 +89,26 @@ class Descritor
 
         foreach($acoes as $acao){
             try{
+                $andarAtual = $this->elevador->andarAtual;
 
                 if($acao[0] == 'chamar'){
                     $this->elevador->chamar($acao[1]);
+                    $this->escreverProcessoChamada($acao[1]);
                 }
 
                 if($acao[0] == 'mover'){
-                    $andarAtual = $this->elevador->andarAtual;
                     $this->elevador->mover();
-                    $this->escreverProcessoChamada($andarAtual);
                     $this->escreverProcessoMovimento($andarAtual);
+                    
                 }
             }catch(\Exception $e){
                 $this->tratarExcecaoLista($e);
             }
+
+            sleep(.2);
         }
         
-        Persistencia::getInstance()->salvar($this->elevador, self::serialize);
+        // Persistencia::getInstance()->salvar($this->elevador, self::serialize);
         
         echo '</ul>';
     }

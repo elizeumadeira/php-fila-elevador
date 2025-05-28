@@ -25,3 +25,4 @@ vendor/composer/installed.php
 vendor/composer/InstalledVersions.php
 vendor/composer/LICENSE
 vendor/composer/platform_check.php
+elevador.serialized

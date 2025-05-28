@@ -23,9 +23,9 @@ class Elevador
             throw new \Exception("Número de andar inexistente");
         }
 
-        // if($andar == $this->andarAtual){
-        //     throw new \Exception("Elevador ja se encontra no andar {$this->andarAtual}");
-        // }
+        if(!$this->filaChamados->isEmpty() && $this->filaChamados->top() == $andar){
+            throw new \Exception("Andar {$andar} ja foi chamado. Ignorando solicitação.");
+        }
 
         $this->filaChamados->enqueue($andar);
     } 
