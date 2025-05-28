@@ -26,9 +26,10 @@ class DescritorJsonController implements DescritorInterface
     public function visualizar()
     {
         $elevador = $this->getElevadorObj();
-        $elevador->filaChamados->setIteratorMode(\SplDoublyLinkedList::IT_MODE_KEEP);
+        $elevadorClone = $elevador->getChamadosPendentes();
+        $elevadorClone->setIteratorMode(\SplDoublyLinkedList::IT_MODE_KEEP);
 
-        if ($elevador->filaChamados->isEmpty()) {
+        if ($elevadorClone->isEmpty()) {
             echo json_encode([
                 'erro' => false,
                 'fila' => [],
@@ -38,7 +39,7 @@ class DescritorJsonController implements DescritorInterface
         }
 
         $items = [];
-        foreach ($elevador->filaChamados as $item) {
+        foreach ($elevadorClone as $item) {
             $items[] = $item;
         }
 
